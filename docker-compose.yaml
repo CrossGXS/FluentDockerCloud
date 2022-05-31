@@ -132,13 +132,13 @@ volumes:
     driver: local
     driver_opts:
       type: none
-      device: ./storage/files
+      device: /home/ubuntu/FluentDockerCloud/storage/files
       o: bind
   drupaldatabase:
     driver: local
     driver_opts:
       type: none
-      device: ./storage/mysql
+      device: /home/ubuntu/FluentDockerCloud/storage/files
       o: bind
 #Red local
 networks:
