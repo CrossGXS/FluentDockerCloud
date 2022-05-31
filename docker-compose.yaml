@@ -82,17 +82,6 @@ services:
         fluentd-async-connect: "true"
         fluentd-address: localhost:24224
         tag: drupal.logs
-
-  #Plugin de grafana que recoge los logs de fluent-bit y permite visualizarlos en Grafana
-  loki:
-    image: grafana/loki:2.0.0
-    container_name: loki
-    volumes:
-      - ./config/loki.yaml:/etc/config/loki.yaml
-    ports:
-      - "3100:3100"
-    networks:
-      - milocal
   
   #Fluent-bit, recolector y reenviador de registros.  
   fluentd:
@@ -107,25 +96,7 @@ services:
       - ./fluent-bit/fluent-bit.conf:/fluent-bit/etc/fluent-bit.conf
     networks:
       - milocal
-  
-  #Herramienta de monitoreo. Visualización de Logs
-  grafana:
-    image: grafana/grafana:7.2.2
-    container_name: grafana
-    environment:
-      #Credenciales para entrar en Grafana
-      GF_SECURITY_ADMIN_USER: admin
-      GF_SECURITY_ADMIN_PASSWORD: admin
-    ports:
-      - "3000:3000"
-    networks:
-      - milocal
-    depends_on:
-      - loki
-    volumes:
-      # Fichero para proporcionar el datasource (conexión a Loki)
-      - ./grafana/configs/datasource.yml:/etc/grafana/provisioning/datasources/datasource.yml
-
+      
 #Volúmenes para ficheros estáticos (Drupal y MySQL) 
 volumes:
   staticfiles:
